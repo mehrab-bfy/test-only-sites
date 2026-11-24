@@ -21,6 +21,20 @@
       ]
     },
     {
+      id: 'VC_S19146_C1 XW',
+      title: 'Rectangle Eyeglasses',
+      brand: 'Test Optics',
+      category: 'eyewear',
+      price: 89.0,
+      description: 'Wired to the second Trialhood test store (st_3366dc906e92b70c11930a8a). Note the space in the product ID.',
+      tags: ['try-on', 'featured'],
+      // This product lives in a different Trialhood store than the default one.
+      trialhood: { storeId: 'st_3366dc906e92b70c11930a8a' },
+      variants: [
+        { id: 'VC_S19146_C1 XW', name: 'C1 / XW', color: '#2b2b2b', lens: '#cfd8dc' }
+      ]
+    },
+    {
       id: 'TS_EYE_ROUND_01',
       title: 'Round Metal Frames',
       brand: 'Test Optics',
