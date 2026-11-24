@@ -8,7 +8,9 @@
  *   leaving the product page              -> instance.destroy()
  *
  * Settings (editable in the Tester panel → Integrations → Trialhood → Settings):
- *   sdkUrl            URL of the Trialhood loader script. Leave empty if the SDK is loaded some other way.
+ *   sdkUrl            URL of the Trialhood loader script. Set to "mocks/trialhood-mock.js" to use the fake SDK,
+ *                     or empty if the SDK is loaded some other way.
+ *   minHeight         Space reserved for the viewer so the page does not shift ('' to disable).
  *   storeId           Trialhood store ID.
  *   target            CSS selector of the mount element (the slot below the product image).
  *   productOverride   Force this productId on every product page (empty = use the store's product id).
@@ -52,7 +54,8 @@
     pages: ['product'],
 
     settings: {
-      sdkUrl: '',
+      sdkUrl: 'https://cdn.trialhood.com/sdk/v1/loader.js',
+      minHeight: '420px',
       storeId: 'st_98e038ef8da584a264adc0be',
       target: '#trialhood-product',
       productOverride: '',
@@ -60,11 +63,13 @@
       readyTimeoutMs: 8000
     },
 
-    scripts: function (s) { return s.sdkUrl ? [{ src: s.sdkUrl }] : []; },
+    scripts: function (s) { return s.sdkUrl ? [{ src: s.sdkUrl, attrs: { crossorigin: 'anonymous' } }] : []; },
 
+    // Space is reserved up front (as Trialhood recommends) so the page does not shift when the viewer loads.
     slots: {
       'product-media-after': function (s) {
-        return '<div id="' + s.target.replace(/^#/, '') + '" class="vendor-mount" data-vendor="trialhood"></div>';
+        return '<div id="' + s.target.replace(/^#/, '') + '" class="vendor-mount" data-vendor="trialhood"' +
+          (s.minHeight ? ' style="min-height:' + s.minHeight + '"' : '') + '></div>';
       }
     },
 

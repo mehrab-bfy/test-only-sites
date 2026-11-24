@@ -59,9 +59,11 @@ Click **Tester** (bottom right), or add `?panel=1` to the URL.
 
 It waits for `window.Trialhood` or the `trialhood:ready` event before mounting.
 
-**Set the SDK URL:** Tester → Integrations → Trialhood → Settings → `sdkUrl`, then Save & reload. Without it, nothing defines `window.Trialhood` and the log shows a warning.
+**SDK URL:** defaults to `https://cdn.trialhood.com/sdk/v1/loader.js`. Change it under Tester → Integrations → Trialhood → Settings → `sdkUrl`.
 
-**No real SDK yet?** Set `sdkUrl` to `mocks/trialhood-mock.js`. It's a fake with the same API that draws a box showing the IDs it received, so you can check the wiring. For the static page: `static/product.html?sdk=../mocks/trialhood-mock.js`.
+**Allowed domains:** Trialhood's API only answers approved origins. On a domain that isn't approved (e.g. `localhost`) the SDK loads but its API calls fail CORS and the viewer stays hidden. Ask Trialhood to allow the deployed domain for the store.
+
+**No real SDK yet?** Set `sdkUrl` to `mocks/trialhood-mock.js`. It's a fake with the same API that draws a box showing the IDs it received, so you can check the wiring. The static page always uses the real SDK (snippet pasted verbatim).
 
 ## Adding a new script / vendor
 
