@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Static product page — Test Store</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <!--
+    Plain HTML product page with a vendor snippet pasted as-is: no router, no integration framework.
+    Use it to check a snippet exactly as a merchant would paste it.
+    The SDK loader URL is read from ?sdk=<url>, or from the Trialhood sdkUrl saved in the main store's tester panel.
+  -->
+  <header class="site-header"><div class="container header-inner"><a href="../index.html" class="logo">◆ Test Store</a><span class="muted">Static page (no SPA)</span></div></header>
+  <main class="container">
+    <div class="pdp">
+      <div class="pdp-media">
+        <div class="product-art large">
+          <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Classic Aviator Sunglasses"><rect width="400" height="300" fill="#f4f1ec"/><g fill="#2f5d3a" fill-opacity=".75" stroke="#c9a227" stroke-width="6"><ellipse cx="135" cy="150" rx="62" ry="48"/><ellipse cx="265" cy="150" rx="62" ry="48"/></g><path d="M197 140 q3 -14 6 0" stroke="#c9a227" stroke-width="6" fill="none"/><path d="M73 135 L30 120 M327 135 L370 120" stroke="#c9a227" stroke-width="6"/></svg>
+        </div>
+        <!-- Trialhood mount point -->
+        <div id="trialhood-product" class="vendor-mount"></div>
+      </div>
+      <div class="pdp-info">
+        <div class="muted">Test Optics</div>
+        <h1>Classic Aviator Sunglasses</h1>
+        <div class="price large">$169.00</div>
+        <div class="ids small mono">product: RA_7164U_6149<br>variant: RA_7164U_6149</div>
+        <p id="sdk-status" class="small"></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Loads the Trialhood SDK (URL from ?sdk= or the saved tester setting) -->
+  <script>
+    (function () {
+      var url = new URLSearchParams(location.search).get('sdk');
+      if (!url) {
+        try { url = (JSON.parse(localStorage.getItem('ts.integration.trialhood.settings') || '{}').sdkUrl) || ''; } catch (e) {}
+      }
+      var status = document.getElementById('sdk-status');
+      if (!url) { status.textContent = 'No SDK URL. Add ?sdk=<loader url> or set Trialhood sdkUrl in the main store tester panel.'; return; }
+      status.textContent = 'Loading SDK: ' + url;
+      var s = document.createElement('script');
+      s.src = url; s.async = true;
+      s.onload = function () { status.textContent = 'SDK loaded: ' + url; };
+      s.onerror = function () { status.textContent = 'SDK failed to load: ' + url; };
+      document.head.appendChild(s);
+    })();
+  </script>
+
+  <!-- Trialhood snippet, verbatim -->
+  <script>
+    // Single-page apps: mount once, then update IDs on navigation or variant change.
+    // mount() resolves to the instance once the viewer is ready.
+    let trialhood;
+    async function onReady() {
+      trialhood = await window.Trialhood.mount({
+        target: '#trialhood-product',
+        storeId: "st_98e038ef8da584a264adc0be",
+        productId: "RA_7164U_6149",
+        variantId: "RA_7164U_6149",
+        consent: { analytics: false },
+      });
+    }
+    if (window.Trialhood) onReady();
+    else window.addEventListener('trialhood:ready', onReady, { once: true });
+
+    // When the shopper selects another variant:
+    //   trialhood?.update({ variantId: 'NEXT_VARIANT_ID' });
+    // When your consent banner changes:
+    //   trialhood?.setConsent({ analytics: true });
+    // When leaving the product page:
+    //   trialhood?.destroy();
+  </script>
+</body>
+</html>
