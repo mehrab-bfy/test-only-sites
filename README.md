@@ -22,9 +22,9 @@ Open http://localhost:5173. (Opening `index.html` directly from disk also mostly
 | Cart | `#/cart` | |
 | Checkout | `#/checkout` | Fake form, fires the `purchase` hook |
 | Thank you | `#/thank-you` | |
-| Static product page | `static/product.html` | Plain page with the Trialhood snippet pasted verbatim (no router) |
+| Snippet pages | `static/index.html` | Plain pages with vendor snippets pasted verbatim (no router), one per snippet |
 
-The default product `RA_7164U_6149` is the one wired to Trialhood store `st_98e038ef8da584a264adc0be`.
+Trialhood products: `RA_7164U_6149` (store `st_98e038ef8da584a264adc0be`, the default) and `VC_S19146_C1 XW` (store `st_3366dc906e92b70c11930a8a`). A product can point at its own Trialhood store with `trialhood: { storeId }` in `js/catalog.js`.
 
 ## Tester panel
 
@@ -102,7 +102,7 @@ Integrations inject markup into named slots:
 
 ```
 index.html               store shell
-static/product.html      non-SPA product page, vendor snippet verbatim
+static/                  snippet pages: non-SPA product pages, vendor snippet verbatim
 css/styles.css
 js/core.js               storage, log, script loader, integration registry + hooks
 js/catalog.js            products + cart (edit products here)

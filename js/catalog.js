@@ -14,10 +14,24 @@
       brand: 'Test Optics',
       category: 'eyewear',
       price: 169.0,
-      description: 'Teardrop aviator with a thin metal frame. This is the product wired to the Trialhood test store by default.',
+      description: 'Teardrop aviator with a thin metal frame. Trialhood store st_98e038ef8da584a264adc0be: 3D viewer + AR, no try-on.',
       tags: ['try-on', 'featured'],
       variants: [
         { id: 'RA_7164U_6149', name: 'Gold / Green', color: '#c9a227', lens: '#2f5d3a' }
+      ]
+    },
+    {
+      id: 'VC_S19146_C1 XW',
+      title: 'Rectangle Eyeglasses',
+      brand: 'Test Optics',
+      category: 'eyewear',
+      price: 89.0,
+      description: 'Trialhood store st_3366dc906e92b70c11930a8a: 3D viewer, try-on and AR. Use this one to test try-on. Note the space in the product ID.',
+      tags: ['try-on', 'featured'],
+      // This product lives in a different Trialhood store than the default one.
+      trialhood: { storeId: 'st_3366dc906e92b70c11930a8a' },
+      variants: [
+        { id: 'VC_S19146_C1 XW', name: 'C1 / XW', color: '#2b2b2b', lens: '#cfd8dc' }
       ]
     },
     {
