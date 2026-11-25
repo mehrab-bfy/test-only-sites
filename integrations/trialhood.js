@@ -11,8 +11,7 @@
  *   sdkUrl            URL of the Trialhood loader script. Set to "mocks/trialhood-mock.js" to use the fake SDK,
  *                     or empty if the SDK is loaded some other way.
  *   minHeight         Space reserved for the viewer so the page does not shift ('' to disable).
- *   storeId           Default Trialhood store ID (a product can set its own in catalog.js).
- *   storeOverride     Force this storeId on every product page (empty = per-product / default).
+ *   storeId           Trialhood store ID.
  *   target            CSS selector of the mount element (the slot below the product image).
  *   productOverride   Force this productId on every product page (empty = use the store's product id).
  *   variantOverride   Force this variantId (empty = use the selected variant id).
@@ -40,15 +39,10 @@
     });
   }
 
-  // Precedence: tester-panel override → product's own `trialhood` block in catalog.js → defaults.
-  // Products in catalog.js can set { trialhood: { storeId, productId } } and variants { trialhoodId }
-  // when they belong to a different Trialhood store or use different IDs there.
   function ids(ctx) {
-    var p = ctx.product.trialhood || {};
     return {
-      storeId: ctx.settings.storeOverride || p.storeId || ctx.settings.storeId,
-      productId: ctx.settings.productOverride || p.productId || ctx.product.id,
-      variantId: ctx.settings.variantOverride || ctx.variant.trialhoodId || ctx.variant.id
+      productId: ctx.settings.productOverride || ctx.product.id,
+      variantId: ctx.settings.variantOverride || ctx.variant.id
     };
   }
 
@@ -64,7 +58,6 @@
       minHeight: '420px',
       storeId: 'st_98e038ef8da584a264adc0be',
       target: '#trialhood-product',
-      storeOverride: '',
       productOverride: '',
       variantOverride: '',
       readyTimeoutMs: 8000
@@ -92,7 +85,7 @@
         var token = ++mountToken;
         var opts = {
           target: ctx.settings.target,
-          storeId: ids(ctx).storeId,
+          storeId: ctx.settings.storeId,
           productId: ids(ctx).productId,
           variantId: ids(ctx).variantId,
           consent: { analytics: !!ctx.consent.analytics }
