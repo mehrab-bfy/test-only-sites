@@ -78,6 +78,16 @@
         if (!ctx.settings.sdkUrl && !window.Trialhood) {
           ctx.log('No sdkUrl set. Add the Trialhood loader URL in Settings, or load it from Tester → Scripts.', null, 'warn');
         }
+        // The SDK fires "trialhood:state" on the mount element (bubbles) with { state, reason, revision }.
+        // States: loading | ready | unavailable | fallback | destroyed. Reasons explain why the viewer hid,
+        // e.g. not_found (product/variant not in this store), kill_switch (session refused — often the
+        // origin isn't allowed), load_error, timeout, quota.
+        document.addEventListener('trialhood:state', function (e) {
+          var d = e.detail || {};
+          var bad = d.state === 'fallback' || d.state === 'unavailable';
+          ctx.log('state: ' + d.state + (d.reason ? ' (' + d.reason + ')' : ''), d, bad ? 'warn' : 'info');
+          if (d.state === 'ready' && trialhood && trialhood.diagnostics) ctx.log('diagnostics', trialhood.diagnostics());
+        });
       },
 
       pageEnter: function (ctx) {
